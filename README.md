@@ -46,6 +46,11 @@ Changelogs
 - 1.4 (21 Sep 2021): Adjusting file compression structure.
 - 1.5 (05 Oct 2021): Distro checking for net-tools availability. Collect ifconfig/ip addr info. Added ASCII art; cause, why not? :)
 
+To-Do-List (In Future)
+===
+[ ] Changing from ifconfig to ip addr - since ifconfig going to deprecated
+[ ] Probably add more artifacts to be collected in future
+
 Credit
 ===
 - This script was developed together with Fikri Ramli - <a href="https://www.linkedin.com/in/fikri-ramli-aba94881/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /></a> / <a href="https://github.com/frmoncheh/"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /></a>
