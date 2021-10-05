@@ -1,5 +1,6 @@
 Linux Forensic Artifacts Collector - LFAC
 ===
+![LFAC Logo](/screenshot/LFAC-repo-card.png)
 Script to automate Linux logs & artifacts collection. It uses built-in tools to automate the collection of systems artifacts. It was created to facilitate data collection, and depend less on remote support during incident response engagements.
 
 Features
