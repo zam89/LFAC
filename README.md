@@ -32,9 +32,9 @@ How to Run
 
 Screenshot
 ===
-![Ubuntu 20.04](LFAC_Ubuntu20.04.png)
-![Debian 10](LFAC_Debian10.png)
-![RHEL 8.4](LFAC_RHEL8.4.png)
+![Ubuntu 20.04](/screenshot/LFAC_Ubuntu20.04.png)
+![Debian 10](/screenshot/LFAC_Debian10.png)
+![RHEL 8.4](/screenshot/LFAC_RHEL8.4.png)
 
 Changelogs
 ===
