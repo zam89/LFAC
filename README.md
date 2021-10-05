@@ -28,7 +28,7 @@ How to Run
   $ sudo ./LFAC.sh
 ```
 - Wait until it finished collecting the logs
-- The compressed logs should located at `/opt/` dir named as <hostname>.tar.gz
+- The compressed logs should located at `/opt/` dir named as <'hostname'>.tar.gz
 
 Screenshot
 ===
