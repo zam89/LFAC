@@ -48,8 +48,8 @@ Changelogs
 
 To-Do-List (In Future)
 ===
-[ ] Changing from ifconfig to ip addr - since ifconfig going to deprecated
-[ ] Probably add more artifacts to be collected in future
+- [ ] Changing from ifconfig to ip addr - since ifconfig going to deprecated
+- [ ] Probably add more artifacts to be collected in future
 
 Credit
 ===
