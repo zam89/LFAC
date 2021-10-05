@@ -12,7 +12,7 @@ Features
   - ps aux
   - `/var/log`
   - `/tmp`
-- Checking mechanism - to see if `net-tools` is installed. if not, script will install it
+- Checking mechanism - to see if `net-tools` is installed. if not, script will install it. <b>hopefully..</b> *sigh*
 - Tested on Ubuntu 20.04, Debian 10 & RedHat 8.4.
 
 Dependencies
