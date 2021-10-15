@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Linux Forensic Artifacts Collector - LFAC Ver. 1.5
+# Linux Forensic Artifacts Collector - LFAC Ver. 1.5.1
 #
 # Authors
 # -------
@@ -9,13 +9,14 @@
 #
 # Changelogs
 # ----------
-# Beta (9 Jul 2021): Beta version of the script by Fikri Ramli.
-# 1.0 (13 Jul 2021): Improved logs copies arrangement & applied file compressing.
-# 1.1 (21 Jul 2021): Improved logs copies arrangement. Tested on Ubuntu 20.04, Debian 10 & RedHat 8.4.
-# 1.2 (22 Jul 2021): Improved .bash_history copy method for each user and better folder naming convention.
-# 1.3 (02 Sep 2021): Collect user accounts context logs (passwd, shadow, group and sudoers); stored in accounts folder, timezone & btmp.
-# 1.4 (21 Sep 2021): Adjusting file compression structure.
-# 1.5 (05 Oct 2021): Distro checking for net-tools availability. Collect ifconfig/ip addr info. Added ASCII art; cause, why not? :)
+# Beta  (09 Jul 2021): Beta version of the script by Fikri Ramli.
+# 1.0   (13 Jul 2021): Improved logs copies arrangement & applied file compressing.
+# 1.1   (21 Jul 2021): Improved logs copies arrangement. Tested on Ubuntu 20.04, Debian 10 & RedHat 8.4.
+# 1.2   (22 Jul 2021): Improved .bash_history copy method for each user and better folder naming convention.
+# 1.3   (02 Sep 2021): Collect user accounts context logs (passwd, shadow, group and sudoers); stored in accounts folder, timezone & btmp.
+# 1.4   (21 Sep 2021): Adjusting file compression structure.
+# 1.5   (05 Oct 2021): Distro checking for net-tools availability. Collect ifconfig/ip addr info. Added ASCII art; cause, why not? :)
+# 1.5.1 (15 Oct 2021): Adjust wtmp logs, net-tools installing method.
 #
 # No Licence or warranty expressed or implied, use however you wish!
 # Please email us for any suggestion and feedback.
@@ -24,15 +25,15 @@ echo -e "
  +-+-+-+-+-+ +-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+
  |L|i|n|u|x| |F|o|r|e|n|s|i|c| |A|r|t|i|f|a|c|t|s|
  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- |C|o|l|l|e|c|t|o|r| |-| |L|F|A|C|                
- +-+-+-+-+-+-+-+-+-+ +-+ +-+-+-+-+                
+ |C|o|l|l|e|c|t|o|r| |-| |L|F|A|C|_|v|1|.|5|.|1|  
+ +-+-+-+-+-+-+-+-+-+ +-+ +-+-+-+-+-+-+-+-+-+-+-+  
 "
 
 echo -e " Collecting necessary logs.. \n"
 
 #Creating folder & files
 mkdir /opt/lfac
-mkdir /opt/lfac/varlogs
+mkdir /opt/lfac/var_logs
 mkdir /opt/lfac/tmp_files
 mkdir /opt/lfac/root_bashhistory
 mkdir /opt/lfac/user_bashhistory
@@ -53,7 +54,7 @@ touch /opt/lfac/accounts/sudoers
 touch /opt/lfac/accounts/group  
 
 #Copying logs
-cp -R /var/log/* /opt/lfac/varlogs
+cp -R /var/log/* /opt/lfac/var_logs
 cp -R /tmp/* /opt/lfac/tmp_files
 cp /root/.bash_history /opt/lfac/root_bashhistory
 
@@ -71,7 +72,7 @@ then
 	netstat -antp > /opt/lfac/netstat_out
 else
 	echo -e " netstat not installed!"
-	sudo apt-get install net-tools -y
+	sudo apt-get install net-tools -y #for debian-based os
 	netstat -antp > /opt/lfac/netstat_out
 fi
 
@@ -110,7 +111,7 @@ then
 	if [[ $IFCONFIGINSTALLED == 1 ]]
 	then
 		echo -e " ifconfig not installed!"
-		sudo apt-get install net-tools -y
+		sudo yum -y install net-tools
 		ifconfig > /opt/lfac/ifconfig
 	else
 		echo -e " ifconfig installed!"
@@ -122,7 +123,7 @@ else
 fi
 
 ps aux > /opt/lfac/psaux_out
-last -f /var/log/wtmp > /opt/lfac/wtmp
+utmpdump /var/log/wtmp > /opt/lfac/wtmp &>/dev/null
 utmpdump /var/log/btmp > /opt/lfac/btmp &>/dev/null
 
 cp -R /etc/cron* /opt/lfac/cron_copy
@@ -156,4 +157,3 @@ currentuser=$(who | awk '{print $1}')
 sudo chown -R $currentuser:$currentuser /opt/$(hostname).tar.gz
 
 echo -e " Done! File located at: /opt/$(hostname).tar.gz\n"
-
