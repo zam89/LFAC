@@ -47,7 +47,7 @@ Changelogs
 - 1.3   (02 Sep 2021): Collect user accounts context logs (passwd, shadow,group and sudoers); stored in accounts folder, timezone & btmp.
 - 1.4   (21 Sep 2021): Adjusting file compression structure.
 - 1.5   (05 Oct 2021): Distro checking for net-tools availability. Collect ifconfig/ip addr info. Added ASCII art; cause, why not? :)
-- 1.5.1 (15 Oct 2021): Adjust wtmp logs, net-tools installing method.
+- 1.5.1 (15 Oct 2021): Disable wtmp & btmp dump logs; it only read first log when tried to * filename. Correcting net-tools installing method for RHEL.
 
 To-Do-List (In Future)
 ===
