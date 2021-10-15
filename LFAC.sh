@@ -16,7 +16,7 @@
 # 1.3   (02 Sep 2021): Collect user accounts context logs (passwd, shadow, group and sudoers); stored in accounts folder, timezone & btmp.
 # 1.4   (21 Sep 2021): Adjusting file compression structure.
 # 1.5   (05 Oct 2021): Distro checking for net-tools availability. Collect ifconfig/ip addr info. Added ASCII art; cause, why not? :)
-# 1.5.1 (15 Oct 2021): Adjust wtmp logs, net-tools installing method.
+# 1.5.1 (15 Oct 2021): Disable wtmp & btmp dump logs; it only read first log when tried to * filename. Correcting net-tools installing method for RHEL.
 #
 # No Licence or warranty expressed or implied, use however you wish!
 # Please email us for any suggestion and feedback.
@@ -46,8 +46,8 @@ touch /opt/lfac/ifconfig
 touch /opt/lfac/crontab_out
 touch /opt/lfac/psaux_out
 touch /opt/lfac/release
-touch /opt/lfac/wtmp
-touch /opt/lfac/btmp
+#touch /opt/lfac/wtmp
+#touch /opt/lfac/btmp
 touch /opt/lfac/accounts/passwd 
 touch /opt/lfac/accounts/shadow
 touch /opt/lfac/accounts/sudoers
@@ -123,8 +123,9 @@ else
 fi
 
 ps aux > /opt/lfac/psaux_out
-utmpdump /var/log/wtmp > /opt/lfac/wtmp &>/dev/null
-utmpdump /var/log/btmp > /opt/lfac/btmp &>/dev/null
+#utmpdump /var/log/wtmp* > /opt/lfac/wtmp &>/dev/null
+#utmpdump /var/log/btmp* > /opt/lfac/btmp &>/dev/null
+#disabling this for temporary. wtmp & btmp still collected under var_logs folder
 
 cp -R /etc/cron* /opt/lfac/cron_copy
 for user in $(cut -f1 -d: /etc/passwd); do crontab -u $user -l &>/dev/null > /opt/lfac/crontab_out; done
