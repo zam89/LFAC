@@ -40,13 +40,14 @@ Screenshot
 
 Changelogs
 ===
-- Beta (9 Jul 2021): Beta version of the script by Fikri Ramli.
-- 1.0 (13 Jul 2021): Improved logs copies arrangement & applied file compressing.
-- 1.1 (21 Jul 2021): Improved logs copies arrangement. Tested on Ubuntu 20.04, Debian 10 & RedHat 8.4.
-- 1.2 (22 Jul 2021): Improved .bash_history copy method for each user and better folder naming convention.
-- 1.3 (02 Sep 2021): Collect user accounts context logs (passwd, shadow,group and sudoers); stored in accounts folder, timezone & btmp.
-- 1.4 (21 Sep 2021): Adjusting file compression structure.
-- 1.5 (05 Oct 2021): Distro checking for net-tools availability. Collect ifconfig/ip addr info. Added ASCII art; cause, why not? :)
+- Beta  (09 Jul 2021): Beta version of the script by Fikri Ramli.
+- 1.0   (13 Jul 2021): Improved logs copies arrangement & applied file compressing.
+- 1.1   (21 Jul 2021): Improved logs copies arrangement. Tested on Ubuntu 20.04, Debian 10 & RedHat 8.4.
+- 1.2   (22 Jul 2021): Improved .bash_history copy method for each user and better folder naming convention.
+- 1.3   (02 Sep 2021): Collect user accounts context logs (passwd, shadow,group and sudoers); stored in accounts folder, timezone & btmp.
+- 1.4   (21 Sep 2021): Adjusting file compression structure.
+- 1.5   (05 Oct 2021): Distro checking for net-tools availability. Collect ifconfig/ip addr info. Added ASCII art; cause, why not? :)
+- 1.5.1 (15 Oct 2021): Adjust wtmp logs, net-tools installing method.
 
 To-Do-List (In Future)
 ===
