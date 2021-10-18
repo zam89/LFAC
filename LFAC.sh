@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Linux Forensic Artifacts Collector - LFAC Ver. 1.5.1
+# Linux Forensic Artifacts Collector - LFAC Ver. 1.5.2
 #
 # Authors
 # -------
@@ -17,6 +17,8 @@
 # 1.4   (21 Sep 2021): Adjusting file compression structure.
 # 1.5   (05 Oct 2021): Distro checking for net-tools availability. Collect ifconfig/ip addr info. Added ASCII art; cause, why not? :)
 # 1.5.1 (15 Oct 2021): Disable wtmp & btmp dump logs; it only read first log when tried to * filename. Correcting net-tools installing method for RHEL.
+# 1.5.2 (17 Oct 2021): Added lastlog, search deleted binaries which still running, search hidden dirs & files, search hidden & non-hidden executables on system.
+#                      Removed btmp (as it only records failed login attempts.) Added utmp log.
 #
 # No Licence or warranty expressed or implied, use however you wish!
 # Please email us for any suggestion and feedback.
@@ -25,7 +27,7 @@ echo -e "
  +-+-+-+-+-+ +-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+
  |L|i|n|u|x| |F|o|r|e|n|s|i|c| |A|r|t|i|f|a|c|t|s|
  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- |C|o|l|l|e|c|t|o|r| |-| |L|F|A|C|_|v|1|.|5|.|1|  
+ |C|o|l|l|e|c|t|o|r| |-| |L|F|A|C|_|v|1|.|5|.|2|  
  +-+-+-+-+-+-+-+-+-+ +-+ +-+-+-+-+-+-+-+-+-+-+-+  
 "
 
@@ -44,10 +46,11 @@ touch /opt/lfac/netstat_out
 touch /opt/lfac/ipaddr
 touch /opt/lfac/ifconfig
 touch /opt/lfac/crontab_out
-touch /opt/lfac/psaux_out
+touch /opt/lfac/ps_out
 touch /opt/lfac/release
-#touch /opt/lfac/wtmp
-#touch /opt/lfac/btmp
+touch /opt/lfac/wtmp
+touch /opt/lfac/utmp
+touch /opt/lfac/lastlog
 touch /opt/lfac/accounts/passwd 
 touch /opt/lfac/accounts/shadow
 touch /opt/lfac/accounts/sudoers
@@ -59,16 +62,16 @@ cp -R /tmp/* /opt/lfac/tmp_files
 cp /root/.bash_history /opt/lfac/root_bashhistory
 
 #Loop over each user and copy their bash_history.
-for user in $(cut -f1 -d: /etc/passwd); do cp /home/$user/.bash_history /opt/lfac/user_bashhistory/$user &>/dev/null; done
+for user in $(cut -f1 -d: /etc/passwd); do cp /home/$user/.bash_history /opt/lfac/user_bashhistory/$user &> /dev/null; done
 
 cat /etc/*-release > /opt/lfac/release
 
+#Network Connections/Socket Stats
 #netstat checking mechanism
 NETSTATINSTALLED=$(netstat | grep -cs 'Active Internet connections')
 if [[ $NETSTATINSTALLED == 1 ]]
 then
 	echo -e " netstat installed!"
-	#netstat -lnput > /opt/lfac/netstat_out
 	netstat -antp > /opt/lfac/netstat_out
 else
 	echo -e " netstat not installed!"
@@ -122,13 +125,28 @@ else
 	uname -a
 fi
 
-ps aux > /opt/lfac/psaux_out
-#utmpdump /var/log/wtmp* > /opt/lfac/wtmp &>/dev/null
-#utmpdump /var/log/btmp* > /opt/lfac/btmp &>/dev/null
-#disabling this for temporary. wtmp & btmp still collected under var_logs folder
+#List process tree
+ps -auxwf > /opt/lfac/ps_out
+
+#Dumping utmp & wtmp
+for f in $(ls /var/log/wtmp*); do utmpdump $f >> /opt/lfac/wtmpdump_output.txt; done
+for f in $(ls /var/run/utmp*); do utmpdump $f >> /opt/lfac/utmpdump_output.txt; done
+cp /var/run/utmp* /opt/lfac/var_logs
+
+#Deleted binaries which are still running
+ls -alr /proc/*/exe 2> /dev/null | grep deleted
+
+#Hidden Directories and Files
+find / -type d -name ".*"
+
+#Executables on file system
+find / -type f -exec file -p '{}' \; |  grep ELF
+
+#Hidden Executables on file system
+find / -name ".*" -exec file -p '{}' \; | grep ELF
 
 cp -R /etc/cron* /opt/lfac/cron_copy
-for user in $(cut -f1 -d: /etc/passwd); do crontab -u $user -l &>/dev/null > /opt/lfac/crontab_out; done
+for user in $(cut -f1 -d: /etc/passwd); do crontab -u $user -l &> /dev/null > /opt/lfac/crontab_out; done
 #Loop over each username and list out their crontab.
 
 #Copying user accounts details
@@ -138,7 +156,10 @@ cat /etc/sudoers > /opt/lfac/accounts/sudoers
 cat /etc/group > /opt/lfac/accounts/group
 
 #Host time zone
-timedatectl >  /opt/lfac/timezone
+timedatectl > /opt/lfac/timezone
+
+#Lastlog
+lastlog > /opt/lfac/lastlog
 
 #List folder contents
 find /opt/lfac/ -print > /opt/lfac/list_files
