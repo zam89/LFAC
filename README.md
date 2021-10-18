@@ -58,3 +58,7 @@ To-Do-List (In Future)
 Credit
 ===
 - This script was developed together with Fikri Ramli - <a href="https://www.linkedin.com/in/fikri-ramli-aba94881/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /></a> / <a href="https://github.com/frmoncheh/"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /></a>
+
+License
+===
+MIT License. Copyright (c) 2021 Mohd Khairulazam. See [License](https://github.com/zam89/LFAC/blob/main/LICENSE).
