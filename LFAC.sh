@@ -20,7 +20,9 @@
 # 1.5.2 (17 Oct 2021): Added lastlog, search deleted binaries which still running, search hidden dirs & files, search hidden & non-hidden executables on system.
 #                      Removed btmp (as it only records failed login attempts.) Added utmp log.
 #
-# No Licence or warranty expressed or implied, use however you wish!
+# License
+# -------
+# MIT License. Copyright (c) 2021 Mohd Khairulazam. See [License](https://github.com/zam89/LFAC/blob/main/LICENSE).
 # Please email us for any suggestion and feedback.
 
 echo -e "
