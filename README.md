@@ -48,6 +48,7 @@ Changelogs
 - 1.4   (21 Sep 2021): Adjusting file compression structure.
 - 1.5   (05 Oct 2021): Distro checking for net-tools availability. Collect ifconfig/ip addr info. Added ASCII art; cause, why not? :)
 - 1.5.1 (15 Oct 2021): Disable wtmp & btmp dump logs; it only read first log when tried to * filename. Correcting net-tools installing method for RHEL.
+- 1.5.2 (17 Oct 2021): Added lastlog, search deleted binaries which still running, search hidden dirs & files, search hidden & non-hidden executables on system. Removed btmp (as it only records failed login attempts.) Added utmp log. More refined utmpdump method.
 
 To-Do-List (In Future)
 ===
